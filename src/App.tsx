@@ -1,8 +1,11 @@
+import { Calculator } from "./components/Calculator"
+
+
 function App() {
 
   return (
     <>
-     <h1 >Coding Mortgage</h1>
+     <Calculator/>
     </>
   )
 }
