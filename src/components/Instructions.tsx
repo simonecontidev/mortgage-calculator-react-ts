@@ -4,7 +4,7 @@ interface Props{
 
 export const Instructions = ({style=''}: Props) => {
   return (
-    <div className={`${style}  bg-Slate-900 text-white py-8 px-6 text-center` }>
+    <div className={`${style}  bg-Slate-900 text-white py-8 px-6 text-center lg:h-full lg:rounded-bl-[80px]` }>
         <img 
         src="/assets/murtgage.jpg" 
         alt="murtgage"

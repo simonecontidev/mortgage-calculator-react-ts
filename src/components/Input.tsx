@@ -7,7 +7,7 @@ interface Props{
 
 export const Input = ({style='', label, unit, position='right'}: Props) => {
   return (
-    <div className={`${style}`}>
+    <div className={`${style} md:w-full`}>
         <label className="mb-3 block text-slate-700 font-bold" htmlFor="{label}">{label}</label>
         <div className="relative">
         <input 
