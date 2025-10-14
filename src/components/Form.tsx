@@ -1,4 +1,4 @@
-import { Input, Radio } from "../components";
+import { Input, Radio, Button } from "../components";
 interface Props{
     style?: string;
 }
@@ -16,6 +16,8 @@ export const Form = ({style=''}: Props) => {
         <h2 className="text-slate-700 mb-3">Mortgage Type</h2>
         <Radio label="Repayment"/>
         <Radio label="Interest Only"/>
+
+        <Button/>
     </div>
   )
 }
