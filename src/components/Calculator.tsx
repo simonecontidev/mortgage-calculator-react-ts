@@ -6,7 +6,7 @@ interface Props{
 
 export const Calculator = ({style=''}: Props) => {
   return (
-    <div className={`${style}`}>
+    <div className={`${style} w-[375px]`}>
         <Form/>
         <div>
             <Instructions/>

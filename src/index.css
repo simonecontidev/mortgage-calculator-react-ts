@@ -1,1 +1,22 @@
 @import "tailwindcss";
+@import url('family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+@theme {
+  --color-Lime: hsl(61, 70%, 52%);;
+  --color-Red: hsl(4, 69%, 50%);;
+  --color-White: hsl(0, 0%, 100%);;
+  --color-Slate-100: hsl(0,0%,100%);;
+  --color-Slate-300: hsl(202,86%,94%);;
+  --color-Slate-500: hsl(200,26%,54%);;
+  --color-Slate-700: hsl(200,24%,40%);;
+  --color-Slate-900: hsl(202,55%,16%);;
+}
+
+body{
+  font-family: "Inter", sans-serif;
+  font-weight: 500 700;
+  font-style: normal;
+
+  @apply bg-slate-100 text-slate-900 flex justify-center;
+}
