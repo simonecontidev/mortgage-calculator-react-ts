@@ -1,46 +1,62 @@
 // src/App.tsx (oppure src/components/MortgageForm.tsx)
 import React from "react";
-import useLocalStorage from "./hooks/useLocalStorage"; // <-- percorso corretto
-// Se hai già un hook di calcolo, puoi importarlo qui: import useMortgageCalculator from "./hooks/useMortgageCalculator";
+import useLocalStorage from "../hooks/useLocalStorage";
+import useUrlMortgageSync, { MortgageFormState } from "../hooks/useUrlMortgageSync";
+import { clearQuery } from "../utils/urlState";
 
-type MortgageFormState = {
-  amount: number;      // capitale
-  annualRate: number;  // tasso % annuo (es. 3.5)
-  years: number;       // durata in anni
-};
-
-// utilità per convertire input string -> number in modo sicuro
 function toNumber(value: string, fallback = 0) {
   const n = Number(value.replace(",", "."));
   return Number.isFinite(n) ? n : fallback;
 }
 
 export default function App() {
-  // 1) sostituisci useState con useLocalStorage
   const [form, setForm] = useLocalStorage<MortgageFormState>("mortgage:form", {
     amount: 250_000,
     annualRate: 3.5,
     years: 25,
   });
 
-  // 2) handlers controllati per i 3 input
+  // 🔗 URL sync (step 3)
+  useUrlMortgageSync(form, setForm);
+
   const onChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setForm({ ...form, amount: toNumber(e.target.value, form.amount) });
+    setForm({ ...form, amount: Math.max(0, toNumber(e.target.value, form.amount)) });
 
   const onChangeRate = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setForm({ ...form, annualRate: toNumber(e.target.value, form.annualRate) });
+    setForm({ ...form, annualRate: Math.max(0, toNumber(e.target.value, form.annualRate)) });
 
   const onChangeYears = (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm({ ...form, years: Math.max(1, Math.floor(toNumber(e.target.value, form.years))) });
 
-  // 3) (opzionale) se già calcoli la rata qui
-  // const { payment } = useMortgageCalculator(form);
+  const copyShareLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("Link copied to clipboard!");
+    } catch {
+      // fallback semplice
+      prompt("Copy this URL:", window.location.href);
+    }
+  };
+
+  const resetAll = () => {
+    // Resetta stato
+    setForm({ amount: 250_000, annualRate: 3.5, years: 25 });
+    // Pulisce query
+    clearQuery(["amount", "rate", "years"]);
+    // Pulisce localStorage chiave form
+    try { localStorage.removeItem("mortgage:form"); } catch {}
+  };
 
   return (
     <main style={{ maxWidth: 720, margin: "0 auto", padding: 16 }}>
-      <h1>Mortgage Calculator</h1>
+      <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+        <h1>Mortgage Calculator</h1>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button onClick={copyShareLink}>Copy share link</button>
+          <button onClick={resetAll}>Reset</button>
+        </div>
+      </header>
 
-      {/* Form card */}
       <section
         style={{
           background: "var(--card, #f8fafc)",
@@ -50,6 +66,7 @@ export default function App() {
           display: "grid",
           gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
           gap: 12,
+          marginTop: 12,
         }}
       >
         <label style={{ display: "grid", gap: 6 }}>
@@ -91,12 +108,6 @@ export default function App() {
           />
         </label>
       </section>
-
-      {/* (opzionale) preview della rata se calcoli qui
-      <div className="card" style={{ marginTop: 12 }}>
-        Monthly payment: <strong>{payment.toFixed(2)}</strong>
-      </div>
-      */}
     </main>
   );
 }
