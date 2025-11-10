@@ -13,8 +13,14 @@
 A minimal yet powerful starter setup for **React + TypeScript** using **Vite** — fast, modern, and DX-focused.  
 Includes hot-module replacement (HMR), ESLint setup, and ready-to-extend configuration for production projects.
 
+"Real-time computations with input masking, validation, and an animated counter for key figures. Exposes an amortization table with CSV export and persistent state.
+Mortgage Calculator lets users compute monthly payments and interest breakdowns in real time, with animated feedback and intuitive data visualization. The app performs dynamic amortization table generation using pure TypeScript, updating interactively as users adjust principal, rate, or term values.
+
+Built with React and Zustand for reactive state management, it includes masked inputs, validation, and smooth number-count animations via Framer Motion/GSAP. A focus on clarity and precision defines the UI: responsive layout, color-coded results, CSV export, and persistent state for seamless user flow.
+
 > 🧑‍💻 Ideal for small apps, prototypes, or as a clean boilerplate for professional front-end projects.
 
+[Live Demo](https://mortgage.simoneconti.work/)
 ---
 
 ## ⚙️ Features
